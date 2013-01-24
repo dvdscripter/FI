@@ -5,7 +5,8 @@
 #' approximations and sample size provide more accurate results them using 
 #' different methods.
 #' 
-#' @param trees a data frame or matrix in format described in dataset biota
+#' @param trees a data frame or matrix in format described in dataset inventory
+#' (more help \code{\link{inventory}})
 #' @param method method used for estimation of the stem volume
 #' @return a named vector of volumes, names are defined as same as in first 
 #' column
@@ -14,6 +15,23 @@
 #' @note Newton and Huber methods have small modifications for working just with
 #' two mensures (lower and upper diameter). Both of them use mean instead of
 #' real middle diameter.
+#' @seealso \code{\link{ff}} \code{\link{sf}}
+#' @examples
+#' example_data <- data.frame(tree_number = 1, 
+#'                            dhb = 5, 
+#'                            total_height = 20, 
+#'                            comercial_height = 15,
+#'                            section_height = c(0,5,15),
+#'                            section_diameter = 5
+#'                            )
+#' volume(example_data)
+#' #
+#' #
+#' # A little more complex and common example
+#' data(inventory)
+#' volume_output <- volume(inventory)
+#' summary(volume_output)
+#' hist(volume_output)
 #' @export
 volume <- function(trees, method = 'smalian') {
 	if ( !(is.data.frame(trees) || is.matrix(trees) ) ) 
@@ -29,14 +47,14 @@ volume <- function(trees, method = 'smalian') {
 		for (j in 2:nrow(group_trees[[i]])) {
 			# [j] major section (extreme, large) and [j-1] minor section (small)
 			l <- group_trees[[i]][j, 5] - group_trees[[i]][j - 1, 5]
-			if (pmatch(method, methods) == 3)
+			if (pmatch(method, methods) == 3) # huber method
 				v[j - 1] <- l * pi * (mean(c(group_trees[[i]][j - 1, 6], 
 										group_trees[[i]][j, 6])) / 2) ^ 2
-			else if (pmatch(method, methods) == 2)
+			else if (pmatch(method, methods) == 2) # newton method
 				v[j - 1] <- 1/12 * pi * l * (group_trees[[i]][j - 1, 6] ^ 2 + 
 										group_trees[[i]][j - 1, 6] * group_trees[[i]][j, 6] + 
 										group_trees[[i]][j, 6] ^ 2)
-			else
+			else # smalian method
 				v[j - 1] <- 1/8 * pi * l * (group_trees[[i]][j - 1, 6] ^ 2 + 
 										group_trees[[i]][j, 6] ^ 2)
 		}
