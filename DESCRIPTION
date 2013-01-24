@@ -6,3 +6,5 @@ Date: 2013-01-17
 Authors@R: c( person(c('David', 'V.'), 'Dias', role = c('aut', 'cre'), email = 'dvdscripter@gmail.com') )
 Description: Provide functions for forest inventory calculations. Common volumetric equations (Smalian, Newton and Huber) as well stacking factor and form
 License: GPL-3
+URL: https://github.com/dvdscripter/FI
+BugReports: https://github.com/dvdscripter/FI/issues
