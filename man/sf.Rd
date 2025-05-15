@@ -21,6 +21,6 @@
   meter of stacked up wood.
 }
 \references{
-  \url{www.eucalyptus.com.br/capitulos/ENG07.pdf}
+  \url{https://www.eucalyptus.com.br/capitulos/ENG07.pdf}
 }
 
